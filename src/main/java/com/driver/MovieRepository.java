@@ -4,12 +4,20 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 @Repository
 public class MovieRepository {
-    HashMap<String,Movie> movieMap = new HashMap<>();
-    HashMap<String, Director> directorMap = new HashMap<>();
-    HashMap<String,List<String>> movieDirectorMap = new HashMap<>();
+    HashMap<String,Movie> movieMap;
+    HashMap<String, Director> directorMap;
+    HashMap<String,List<String>> movieDirectorMap;
+
+    public MovieRepository() {
+
+        this.movieMap = new HashMap<>();
+        this.directorMap = new HashMap<>();
+        this.movieDirectorMap = new HashMap<>();
+    }
 
     public void addMovie(Movie name) {
         String movieName= name.getName();
@@ -75,28 +83,60 @@ public class MovieRepository {
                     movieMap.remove(movie);
                 }
             }
-            if(directorMap.containsKey(directorName))
-                directorMap.remove(directorName);
+            if(movieDirectorMap.containsKey(directorName))
+                movieDirectorMap.remove(directorName);
         }
-        if(movieDirectorMap.containsKey(directorName))
-            movieDirectorMap.remove(directorName);
+        if(directorMap.containsKey(directorName))
+            directorMap.remove(directorName);
+
+
+//        List<String> movies = new ArrayList<String>();
+//        if(directorMovieMapping.containsKey(director)){
+//            movies = directorMovieMapping.get(director);
+//            for(String movie: movies){
+//                if(movieMap.containsKey(movie)){
+//                    movieMap.remove(movie);
+//                }
+//            }
+//
+//            directorMovieMapping.remove(director);
+//        }
+//
+//        if(directorMap.containsKey(director)){
+//            directorMap.remove(director);
+//        }
 
 
     }
 
     public void deleteAllDirectors() {
-        for (String dir: movieDirectorMap.keySet()) {
-            List<String> lis = movieDirectorMap.get(dir);
-            for (String name: lis) {
-                if(movieMap.containsKey(name)){
-                    movieMap.remove(name);
-                }
+//        for (String dir: movieDirectorMap.keySet()) {
+//            List<String> lis = movieDirectorMap.get(dir);
+//            for (String name: lis) {
+//                if(movieMap.containsKey(name)){
+//                    movieMap.remove(name);
+//                }
+//            }
+//            directorMap.remove(dir);
+//        }
+//        for (String d: directorMap.keySet()) {
+//            directorMap.remove(d);
+//        }
+
+        HashSet<String> moviesSet = new HashSet<String>();
+
+    //directorMap = new HashMap<>();
+
+        for(String director: movieDirectorMap.keySet()){
+            for(String movie: movieDirectorMap.get(director)){
+                moviesSet.add(movie);
             }
-            directorMap.remove(dir);
-        }
-        for (String d: directorMap.keySet()) {
-            directorMap.remove(d);
         }
 
-    }
+        for(String movie: moviesSet){
+            if(movieMap.containsKey(movie)){
+                movieMap.remove(movie);
+            }
+        }
+}
 }
