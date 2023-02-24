@@ -30,16 +30,17 @@ public class MovieRepository {
     }
 
     public void addMovieDirectorPair(String movie, String director) {
+
+        if(movieMap.containsKey(movie) && directorMap.containsKey(director)){
+            movieMap.put(movie,movieMap.get(movie));
+            directorMap.put(director,directorMap.get(director));
+        }
         List<String> movieList = new ArrayList<>();
         if(movieDirectorMap.containsKey(director)){
-            movieList = movieDirectorMap.get(movie);
-            movieList.add(movie);
-            movieDirectorMap.put(director,movieList);
+            movieList = movieDirectorMap.get(director);
         }
-        else{
-            movieList.add(movie);
-            movieDirectorMap.put(director,movieList);
-        }
+        movieList.add(movie);
+        movieDirectorMap.put(director,movieList);
     }
 
     public Movie getMovieByName(String movieName) {
